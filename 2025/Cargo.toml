@@ -3,4 +3,12 @@ name = "aoc"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "download"
+path = "src/contrib/download.rs"
+
+[[bin]]
+name = "scaffold"
+path = "src/contrib/scaffold.rs"
+
 [dependencies]
