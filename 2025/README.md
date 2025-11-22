@@ -1,0 +1,3 @@
+# Advent of Code 2025
+
+This will directory will eventuall contain some code...
