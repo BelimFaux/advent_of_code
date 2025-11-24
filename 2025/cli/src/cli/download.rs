@@ -1,6 +1,6 @@
 use core::fmt;
 use dotenv::dotenv;
-use std::{env, error::Error, process};
+use std::{env, error::Error};
 
 const YEAR: u32 = 2024; // set to 2024 for debugging; 2025 will be available in december
 
@@ -30,24 +30,15 @@ fn get_response(url: String, session_token: String) -> Result<String, DownloadEr
     Ok(res)
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let day = args.get(1).unwrap_or_else(|| {
-        eprintln!("Expected <day> as first argument");
-        process::exit(64);
-    });
-
+pub fn download(day: u8) -> Result<(), String> {
     dotenv().ok();
-    let session_token = env::var("SESSION_TOKEN").unwrap_or_else(|_| {
-        eprintln!(
-            "Couldn't find a session token. Make sure a SESSION_TOKEN environment variable exists."
-        );
-        process::exit(64);
-    });
+    let session_token = env::var("SESSION_TOKEN").map_err(
+        |_| "Couldn't find a session token. Make sure a SESSION_TOKEN environment variable exists.",
+    )?;
 
     let url = format!("https://adventofcode.com/{}/day/{}/input", YEAR, day);
-    if let Ok(res) = get_response(url, session_token) {
-        println!("{}", res);
-    }
+    let res = get_response(url, session_token).map_err(|e| e.to_string())?;
+    println!("{}", res);
+
+    Ok(())
 }

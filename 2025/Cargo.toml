@@ -3,18 +3,6 @@ name = "aoc"
 version = "0.1.0"
 edition = "2024"
 
-[[bin]]
-name = "download"
-path = "src/contrib/download.rs"
-required-features = ["download"]
-
-[[bin]]
-name = "scaffold"
-path = "src/contrib/scaffold.rs"
-
-[dependencies]
-dotenv = { version = "0.15.0", optional = true }
-reqwest = { version = "0.12.24", features = ["blocking"], optional = true }
-
-[features]
-download = ["reqwest", "dotenv"]
+[workspace]
+resolver = "3"
+members = ["cli"]
