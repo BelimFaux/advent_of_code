@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 
 mod download;
 mod scaffold;
+mod util;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about=None)]
