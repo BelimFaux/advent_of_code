@@ -4,6 +4,8 @@ mod download;
 mod scaffold;
 mod util;
 
+const YEAR: u32 = 2024; // set to 2024 for debugging; 2025 will be available in december
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about=None)]
 pub struct Args {

@@ -2,9 +2,8 @@ use core::fmt;
 use dotenv::dotenv;
 use std::{env, error::Error, path::PathBuf};
 
-use crate::cli::util::save_to_file;
+use crate::cli::{YEAR, util::save_to_file};
 
-const YEAR: u32 = 2024; // set to 2024 for debugging; 2025 will be available in december
 const INPUT_DIR: &str = "./data/input";
 const DESC_DIR: &str = "./data/description";
 
