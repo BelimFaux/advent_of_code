@@ -5,7 +5,7 @@ mod scaffold;
 mod solve;
 mod util;
 
-const YEAR: u32 = 2024; // set to 2024 for debugging; 2025 will be available in december
+const YEAR: u32 = 2025;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about=None)]
