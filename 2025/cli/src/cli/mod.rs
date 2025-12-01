@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 
 mod download;
 mod scaffold;
+mod solve;
 mod util;
 
 const YEAR: u32 = 2024; // set to 2024 for debugging; 2025 will be available in december
@@ -24,6 +25,17 @@ pub enum Command {
         #[arg(required = true)]
         day: u8,
     },
+
+    Solve {
+        #[arg(required = true)]
+        day: u8,
+        #[arg(short, long)]
+        /// run in release mode
+        release: bool,
+        #[arg(short, long)]
+        /// only run tests
+        test: bool,
+    },
 }
 
 impl Command {
@@ -31,6 +43,7 @@ impl Command {
         match self {
             Command::Download { day } => download::download(day),
             Command::Scaffold { day } => scaffold::scaffold(day),
+            Command::Solve { day, release, test } => solve::solve(day, release, test),
         }?;
         Ok(())
     }

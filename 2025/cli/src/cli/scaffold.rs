@@ -24,7 +24,13 @@ fn save_new_day(content: String, day: u8) -> Result<(), String> {
         return Ok(());
     }
 
-    save_to_file(content, &filepath)
+    save_to_file(content, &filepath)?;
+    println!(
+        "created day {} in file {}",
+        day,
+        filepath.to_str().unwrap_or("<INVALID_PATH>")
+    );
+    Ok(())
 }
 
 pub fn scaffold(day: u8) -> Result<(), String> {

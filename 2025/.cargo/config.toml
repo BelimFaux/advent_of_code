@@ -1,3 +1,4 @@
 [alias]
 scaffold = "run --quiet --release --package cli -- scaffold"
 download = "run --quiet --release --package cli -- download"
+solve = "run --quiet --release --package cli -- solve"
