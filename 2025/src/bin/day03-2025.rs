@@ -13,21 +13,10 @@ fn main() {
     println!("------ {DAY} ------");
 }
 
-fn get_joltage(f: char, l: char) -> u32 {
-    f.to_digit(10).unwrap() * 10 + l.to_digit(10).unwrap()
-}
-
-fn turn_on_2(bank: &str) -> u32 {
-    let f = bank[..bank.len() - 1].chars().max().unwrap();
-    let i = bank.find(f).unwrap();
-    let l = bank[i + 1..].chars().max().unwrap();
-    get_joltage(f, l)
-}
-
-fn turn_on_12(bank: &str) -> u64 {
-    let mut num = String::with_capacity(12);
+fn turn_on(bank: &str, batteries: usize) -> u64 {
+    let mut num = String::with_capacity(batteries);
     let mut i = 0;
-    for r in (0..12).rev() {
+    for r in (0..batteries).rev() {
         let substr = &bank[i..bank.len() - r];
         let c = substr.chars().max().unwrap();
         i += substr.find(c).unwrap() + 1;
@@ -36,12 +25,12 @@ fn turn_on_12(bank: &str) -> u64 {
     num.parse().unwrap()
 }
 
-fn part_one(input: &str) -> Option<u32> {
-    Some(input.lines().map(turn_on_2).sum())
+fn part_one(input: &str) -> Option<u64> {
+    Some(input.lines().map(|bank| turn_on(bank, 2)).sum())
 }
 
 fn part_two(input: &str) -> Option<u64> {
-    Some(input.lines().map(turn_on_12).sum())
+    Some(input.lines().map(|bank| turn_on(bank, 12)).sum())
 }
 
 #[cfg(test)]
