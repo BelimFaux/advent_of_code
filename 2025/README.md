@@ -1,7 +1,7 @@
 # WIP: Advent of Code 2025
 
-![](https://img.shields.io/badge/stars%20⭐-6-yellow)
-![](https://img.shields.io/badge/days%20completed-3-red)
+![](https://img.shields.io/badge/stars%20⭐-8-yellow)
+![](https://img.shields.io/badge/days%20completed-4-red)
 
 This directory contains some solutions for advent of code 2025 as well as a CLI to make some things easier.
 
