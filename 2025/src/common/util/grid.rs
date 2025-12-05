@@ -3,7 +3,7 @@ use crate::common::util::point::Point;
 pub struct Grid {
     elems: Vec<String>,
     width: usize,
-    height: usize,
+    _height: usize,
 }
 
 impl Grid {
@@ -14,7 +14,7 @@ impl Grid {
         Grid {
             elems,
             width,
-            height,
+            _height: height,
         }
     }
 
