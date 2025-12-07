@@ -1,5 +1,6 @@
 use crate::common::util::point::Point;
 
+#[derive(Debug)]
 pub struct Grid {
     elems: Vec<String>,
     width: usize,
@@ -20,6 +21,19 @@ impl Grid {
 
     pub fn c_at(&self, point: &Point) -> Option<char> {
         self.elems.get(point.y())?.chars().nth(point.x())
+    }
+
+    pub fn find(&self, c: char) -> Option<Point> {
+        for (y, line) in self.elems.iter().enumerate() {
+            if let Some(x) = line.find(c) {
+                return Some(Point::new(x, y));
+            }
+        }
+        None
+    }
+
+    pub fn width(&self) -> usize {
+        self.width
     }
 
     pub fn try_set(&mut self, to: char, point: &Point) {

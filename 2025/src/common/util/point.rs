@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Point(usize, usize);
 
 const NEIGHBOR_OFFSETS: [(isize, isize); 8] = [
