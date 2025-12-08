@@ -2,9 +2,10 @@ use std::fmt::Display;
 
 pub mod common;
 
-pub fn run_part<'a, T: Display, F>(function: F, input: &'a str, part: u8)
+pub fn run_part<T: Display, F, I>(function: F, input: I, part: u8)
 where
-    F: Fn(&'a str) -> Option<T>,
+    F: Fn(I) -> Option<T>,
+    I: Copy,
 {
     if let Some(res) = function(input) {
         println!("part {part}: {res}")
