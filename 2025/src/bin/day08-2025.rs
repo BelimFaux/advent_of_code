@@ -1,7 +1,7 @@
-use std::collections::{BTreeMap, HashSet};
+use std::collections::BTreeMap;
 
 use aoc::{
-    common::{Day, file},
+    common::{Day, file, util::unionfind::UnionFind},
     run_part,
 };
 
@@ -39,41 +39,17 @@ fn parse(input: &str) -> Vec<Point3> {
     input.lines().map(|l| Point3::parse(l).unwrap()).collect()
 }
 
-fn get_distances(points: &[Point3]) -> BTreeMap<i64, (Point3, Point3)> {
+fn get_distances(points: &[Point3]) -> BTreeMap<i64, (usize, usize)> {
     let mut distances = BTreeMap::new();
-    for p in points.iter() {
-        for q in points.iter() {
+    for (pi, p) in points.iter().enumerate() {
+        for (qi, q) in points.iter().enumerate() {
             if p == q {
                 continue;
             }
-            distances.insert(p.sq_distance(q), (*p, *q));
+            distances.insert(p.sq_distance(q), (pi, qi));
         }
     }
     distances
-}
-
-fn make_connection(p: Point3, q: Point3, buckets: &mut Vec<HashSet<Point3>>) {
-    let mut contained: Vec<_> = buckets
-        .iter_mut()
-        .filter(|b| b.iter().any(|e| e == &p || e == &q))
-        .collect();
-
-    if contained.is_empty() {
-        buckets.push(HashSet::from([p, q]));
-    } else if contained.len() == 1 {
-        contained[0].insert(p);
-        contained[0].insert(q);
-    } else {
-        let mut bucket: HashSet<Point3> = HashSet::from_iter(
-            contained
-                .iter()
-                .flat_map(|s| s.iter().copied().collect::<Vec<Point3>>()),
-        );
-        bucket.insert(p);
-        bucket.insert(q);
-        buckets.retain(|b| !b.iter().any(|e| e == &p || e == &q));
-        buckets.push(bucket);
-    }
 }
 
 fn part_one(input: (&str, u32)) -> Option<usize> {
@@ -81,13 +57,13 @@ fn part_one(input: (&str, u32)) -> Option<usize> {
     let points = parse(input);
 
     let mut distances = get_distances(&points);
-    let mut buckets: Vec<HashSet<Point3>> = Vec::new();
+    let mut uf = UnionFind::new(points.len());
     for _ in 0..connections {
         let (_, (p, q)) = distances.pop_first().unwrap();
-        make_connection(p, q, &mut buckets);
+        uf.union(p, q);
     }
 
-    let mut counts: Vec<_> = buckets.iter().map(|b| b.len()).collect();
+    let mut counts = uf.sizes();
     counts.sort();
     let val: usize = counts.iter().rev().take(3).product();
     Some(val)
@@ -97,12 +73,12 @@ fn part_two(input: &str) -> Option<i64> {
     let points = parse(input);
 
     let mut distances = get_distances(&points);
-    let mut buckets: Vec<HashSet<Point3>> = Vec::new();
+    let mut uf = UnionFind::new(points.len());
     loop {
         let (_, (p, q)) = distances.pop_first().unwrap();
-        make_connection(p, q, &mut buckets);
-        if buckets[0].len() == points.len() {
-            return Some(p.0 * q.0);
+        uf.union(p, q);
+        if uf.size_of(0) == points.len() {
+            return Some(points[p].0 * points[q].0);
         }
     }
 }
