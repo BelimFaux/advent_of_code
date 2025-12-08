@@ -53,13 +53,16 @@ fn get_distances(points: &[Point3]) -> BTreeMap<i64, (Point3, Point3)> {
 }
 
 fn make_connection(p: Point3, q: Point3, buckets: &mut Vec<HashSet<Point3>>) {
-    let contained: Vec<_> = buckets
-        .iter()
+    let mut contained: Vec<_> = buckets
+        .iter_mut()
         .filter(|b| b.iter().any(|e| e == &p || e == &q))
         .collect();
 
     if contained.is_empty() {
         buckets.push(HashSet::from([p, q]));
+    } else if contained.len() == 1 {
+        contained[0].insert(p);
+        contained[0].insert(q);
     } else {
         let mut bucket: HashSet<Point3> = HashSet::from_iter(
             contained
