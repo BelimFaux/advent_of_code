@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Point(usize, usize);
 
 const NEIGHBOR_OFFSETS: [(isize, isize); 8] = [
@@ -17,6 +17,18 @@ impl Point {
         Point(x, y)
     }
 
+    pub fn parse(line: &str) -> Option<Point> {
+        let mut nums = line.split(',');
+        Some(Point(
+            nums.next()?.parse().unwrap(),
+            nums.next()?.parse().unwrap(),
+        ))
+    }
+
+    pub fn area(&self, lhs: &Point) -> usize {
+        (self.0.abs_diff(lhs.0) + 1) * (self.1.abs_diff(lhs.1) + 1)
+    }
+
     pub fn neighbors(&self) -> impl Iterator<Item = Point> {
         NEIGHBOR_OFFSETS.iter().filter_map(|(dx, dy)| {
             if (self.0 as isize) < -dx || (self.1 as isize) < -dy {
@@ -27,6 +39,14 @@ impl Point {
                 (self.1 as isize + dy) as usize,
             ))
         })
+    }
+
+    pub fn inc_x(&mut self) {
+        self.0 += 1;
+    }
+
+    pub fn inc_y(&mut self) {
+        self.1 += 1;
     }
 
     pub fn x(&self) -> usize {
